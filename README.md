@@ -1,5 +1,5 @@
 # ImPS
-ImPS is a simple wrapper to use WPF components in your script without writing massive amounts of UI code or using XML layouts. It is heavily inspired by ImGUI/DearPyGui to make it as easy as possible to use while keeping the configurability.
+ImPS is a simple one-file module wrapper to use WPF components in your script without writing massive amounts of UI code or using XML layouts. It is heavily inspired by ImGUI/DearPyGui to make it as easy as possible to use while keeping the configurability.
 
 Please have in mind that this is in active development and, while usable, should not be used in any kind of production environment.
 
@@ -49,7 +49,7 @@ More elements will get added.
 
 ## Advanced usage
 
-ImPS is written for you to easily chain commands if desired:
+ImPS is written for you to easily chain methods if desired:
 
 ```powershell
 $window.add_Label("My bold label", 20, 20).set_font("Verdana,8,style=Bold")
