@@ -4,8 +4,9 @@ ImPS is a simple wrapper to use WPF components in your script without writing ma
 Please have in mind that this is in active development and, while usable, should not be used in any kind of production environment.
 
 ## Comparison
+![ImPS Window](https://raw.githubusercontent.com/Slluxx/ImPS/main/ImPS.png)
 
-Here is the code you would need to write for a very basic window + label:
+Here is the code you would need to write this basic window + label:
 ```ps
 Add-Type -AssemblyName System.Windows.Forms
 
@@ -35,6 +36,15 @@ $window = [ImPS]::new("ImPS Window", 285, 75)
 $window.add_Label("This is almost like ImGUI", 20, 20)
 $window.show()
 ```
+
+## Usable Elements
+
+- Label
+- Button
+- Checkbox
+- ListBox (And its ListItem)
+
+More elements will get added.
 
 ## Advanced usage
 
