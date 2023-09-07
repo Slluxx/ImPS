@@ -7,7 +7,7 @@ Please have in mind that this is in active development and, while usable, should
 ![ImPS Window](https://raw.githubusercontent.com/Slluxx/ImPS/main/ImPS.png)
 
 Here is the code you would need to write this basic window + label:
-```ps
+```powershell
 Add-Type -AssemblyName System.Windows.Forms
 
 $Window = New-Object System.Windows.Forms.Form
@@ -29,7 +29,7 @@ $Window.Dispose()
 ```
 
 Here is ImPS's code for the exact same:
-```PS
+```powershell
 using module ".\ImPS.psm1"
 
 $window = [ImPS]::new("ImPS Window", 285, 75)
@@ -50,7 +50,7 @@ More elements will get added.
 
 ImPS is written for you to easily chain commands if desired:
 
-```PS
+```powershell
 $window.add_Label("My bold label", 20, 20).set_font("Verdana,8,style=Bold")
 # or
 $label = $window.add_Label("My italic label", 20, 40)
@@ -59,13 +59,11 @@ $label.set_font("Verdana,8,style=Italic")
 
 Button onClick-handler work inline or as defined function:
 
-```ps
-
+```powershell
 $btn = $window.add_Button("Click me", 20, 20).onClick({
     write-host "Got clicked"
 })
 # or
 $myfunc = { write-host "Got clicked" }
 $btn = $window.add_Button("Click me", 20, 20).onClick($myfunc)
-
 ```
