@@ -79,6 +79,12 @@ class ImPS {
         return $Instance
     }
     
+    [ImPS_ComboBox] add_ComboBox([int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_ComboBox]::new($pos_x, $pos_y)
+        $this.Window.Controls.Add($Instance.get_Drawable())
+        $this.Drawables[$Instance.get_Guid()] = $Instance
+        return $Instance
+    }
 }
 
 class ImPS_Drawable{
@@ -96,13 +102,22 @@ class ImPS_Drawable{
         $this.Drawable.Text = $text
         return $this
     }
+    [string] get_text(){
+        return $this.Drawable.Text
+    }
     [object] set_height([int]$height){
         $this.Drawable.Height = $height
         return $this
     }
+    [int] get_height(){
+        return $this.Drawable.Height
+    }
     [object] set_width([int]$width){
         $this.Drawable.Width = $width
         return $this
+    }
+    [int] get_width(){
+        return $this.Drawable.Width
     }
 }
 
@@ -112,7 +127,6 @@ class ImPS_Label : ImPS_Drawable {
 
     ImPS_Label([string]$text, [int]$pos_x, [int]$pos_y) {
         $this.Guid = [guid]::NewGuid()
-
         $this.Drawable = New-Object System.Windows.Forms.label
         $this.Drawable.Text = $text
         $this.Drawable.AutoSize=$true
@@ -153,7 +167,6 @@ class ImPS_Button : ImPS_Drawable {
         $this.Drawable.AutoSize=$true
         $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
     }
-
     [ImPS_Button] onClick([scriptblock] $fn){
         $this.Drawable.Add_Click($fn)
         return $this
@@ -163,6 +176,7 @@ class ImPS_Button : ImPS_Drawable {
 class ImPS_ListBox : ImPS_Drawable {
     [System.Windows.Forms.ListBox] $Drawable
     [guid] $Guid
+
     ImPS_ListBox([int]$pos_x, [int]$pos_y) {
         $this.Guid = [guid]::NewGuid()
         $this.Drawable = New-Object System.Windows.Forms.ListBox
@@ -185,13 +199,6 @@ class ImPS_TextBox : ImPS_Drawable {
         $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
         $this.Drawable.AutoSize=$true
         $this.Drawable.p
-    }
-    [string] get_text(){ 
-        return $this.Drawable.Text
-    }
-    [ImPS_TextBox] set_text([string]$text){ 
-        $this.Drawable.Text = $text
-        return $this
     }
     [ImPS_TextBox] set_size([int]$height, [int]$width){
         $this.Drawable.Size = New-Object System.Drawing.Size($width,$height)
@@ -232,6 +239,35 @@ class ImPS_ProgressBar : ImPS_Drawable {
         return $this
     }
 
+}
+
+class ImPS_ComboBox  : ImPS_Drawable {
+    [System.Windows.Forms.ComboBox] $Drawable
+    [guid] $Guid
+    ImPS_ComboBox([int]$pos_x, [int]$pos_y) {
+        $this.Guid = [guid]::NewGuid()
+        $this.Drawable = New-Object System.Windows.Forms.ComboBox
+        $this.Drawable.Location = New-Object System.Drawing.Point($pos_x,$pos_y)
+        $this.Drawable.AutoSize=$true
+    }
+    [System.Windows.Forms.ComboBox+ObjectCollection] ComboBoxItem(){
+        return $this.Drawable.Items
+    }
+    [ImPS_ComboBox] set_selection([int]$index){
+        $this.Drawable.SelectedIndex = $index
+        return $this
+    }
+    [int] get_selectionIndex(){
+        return $this.Drawable.SelectedIndex
+    }
+    [ImPS_ComboBox] set_selection([string]$value){
+        $this.Drawable.SelectedItem = $value
+        return $this
+    }
+    [string] get_selectionValue(){
+        return $this.Drawable.SelectedItem
+    }
+    
 }
 
 
