@@ -146,8 +146,9 @@ class ImPS_Button : ImPS_Drawable {
         $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
     }
 
-    [void] onClick([scriptblock] $fn){
+    [ImPS_Button] onClick([scriptblock] $fn){
         $this.Drawable.Add_Click($fn)
+        return $this
     }
 }
 
