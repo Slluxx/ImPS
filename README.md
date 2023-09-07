@@ -44,6 +44,8 @@ $window.show()
 - Checkbox
 - ListBox (And its ListItem)
 - TextBox
+- ProgressBar
+- ComboBox
 
 More elements will get added.
 
