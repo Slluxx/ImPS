@@ -43,6 +43,7 @@ $window.show()
 - Button
 - Checkbox
 - ListBox (And its ListItem)
+- TextBox
 
 More elements will get added.
 

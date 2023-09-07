@@ -1,5 +1,13 @@
 ﻿Add-Type -AssemblyName System.Windows.Forms
-Remove-Item function:Out-Default # https://stackoverflow.com/questions/41475205/how-to-output-value-from-function-to-caller-but-not-to-console
+
+# https://stackoverflow.com/questions/41475205/how-to-output-value-from-function-to-caller-but-not-to-console
+# https://renenyffenegger.ch/notes/Windows/PowerShell/command-inventory/noun/default/out
+function out-default {
+    param ([parameter (valueFromPipeline=$true)] $val)
+    begin  {}
+    process{}
+}
+
 
 class ImPS {
     [System.Windows.Forms.Form] $Window
@@ -11,22 +19,14 @@ class ImPS {
         $this.Window.ClientSize = "$($width),$($height)"
         $this.Window.Text = $title
         $this.Window.BackColor = "#ffffff"
-        $this.Window.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
+        $this.Window.StartPosition = [FormStartPosition]::CenterScreen
         #$this.Window.TopMost = $true
     }
     [ImPS] window_setTitle([string]$title){$this.Window.Text = $title; return $this}
     [ImPS] window_setClientSize([int]$width=300, [int]$height=150){$this.Window.ClientSize = "$($width),$($height)"; return $this}
     [ImPS] window_setBackColor([string]$color){$this.Window.BackColor = $color; return $this}
-    [ImPS] window_setStartPosition([int]$position){
-        switch ($position)                         
-        {                        
-            0 {$this.Window.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterParent}                        
-            1 {$this.Window.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen}
-            2 {$this.Window.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual} 
-            3 {$this.Window.StartPosition = [System.Windows.Forms.FormStartPosition]::WindowsDefaultBounds} 
-            4 {$this.Window.StartPosition = [System.Windows.Forms.FormStartPosition]::WindowsDefaultLocation}                        
-            Default {}                        
-        } 
+    [ImPS] window_setStartPosition([FormStartPosition]$position){ # does not seem to work
+        $this.Window.StartPosition = $position
         return $this
     }
 
@@ -59,6 +59,13 @@ class ImPS {
 
     [ImPS_ListBox] add_ListBox([int]$pos_x, [int]$pos_y){
         $Instance = [ImPS_ListBox]::new($pos_x, $pos_y)
+        $this.Window.Controls.Add($Instance.get_Drawable())
+        $this.Drawables[$Instance.get_Guid()] = $Instance
+        return $Instance
+    }
+
+    [ImPS_TextBox] add_TextBox([string]$text,[int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_TextBox]::new($text, $pos_x, $pos_y)
         $this.Window.Controls.Add($Instance.get_Drawable())
         $this.Drawables[$Instance.get_Guid()] = $Instance
         return $Instance
@@ -121,6 +128,10 @@ class ImPS_Checkbox : ImPS_Drawable {
     [bool] get_checked(){
         return $this.Drawable.Checked
     }
+    [ImPS_Checkbox] set_checked([bool]$checked){
+        $this.Drawable.Checked = $checked
+        return $this
+    }
 }
 
 class ImPS_Button : ImPS_Drawable {
@@ -154,43 +165,54 @@ class ImPS_ListBox : ImPS_Drawable {
     }
 }
 
+class ImPS_TextBox : ImPS_Drawable {
+    [System.Windows.Forms.TextBox] $Drawable
+    [guid] $Guid
 
+    ImPS_TextBox([string]$text,[int]$pos_x, [int]$pos_y) {
+        $this.Guid = [guid]::NewGuid()
+        $this.Drawable = New-Object System.Windows.Forms.TextBox
+        $this.Drawable.Text = $text
+        $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
+        $this.Drawable.AutoSize=$true
+        $this.Drawable.p
+    }
+    [string] get_text(){ 
+        return $this.Drawable.Text
+    }
+    [ImPS_TextBox] set_text([string]$text){ 
+        $this.Drawable.Text = $text
+        return $this
+    }
+    [ImPS_TextBox] set_size([int]$height, [int]$width){
+        $this.Drawable.Size = New-Object System.Drawing.Size($width,$height)
+        return $this
+    }
+    [ImPS_TextBox] set_multiline([bool]$multiline){
+        $this.Drawable.Multiline = $multiline
+        return $this
+    }
+    [ImPS_TextBox] set_acceptsReturn([bool]$acceptsReturn){
+        $this.Drawable.Multiline = $acceptsReturn
+        return $this
+    }
+    [ImPS_TextBox] set_scrollbars([ScrollBars]$type){ 
+        $this.Drawable.ScrollBars = $type
+        return $this
+    }
+}
 
-    <#
-        .SYNOPSIS
-        Adds a file name extension to a supplied name.
+enum ScrollBars { #https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.scrollbars?view=windowsdesktop-7.0
+    None = 0
+    Horizontal
+    Vertical
+    Both
+}
 
-        .DESCRIPTION
-        Adds a file name extension to a supplied name.
-        Takes any strings for the file name or extension.
-
-        .PARAMETER Name
-        Specifies the file name.
-
-        .PARAMETER Extension
-        Specifies the extension. "Txt" is the default.
-
-        .INPUTS
-        None. You can't pipe objects to Add-Extension.
-
-        .OUTPUTS
-        System.String. Add-Extension returns a string with the extension or file name.
-
-        .EXAMPLE
-        PS> extension -name "File"
-        File.txt
-
-        .EXAMPLE
-        PS> extension -name "File" -extension "doc"
-        File.doc
-
-        .EXAMPLE
-        PS> extension "File" "doc"
-        File.doc
-
-        .LINK
-        Online version: http://www.fabrikam.com/extension.html
-
-        .LINK
-        Set-Item
-    #>
+enum FormStartPosition { # https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.formstartposition?view=windowsdesktop-7.0
+    Manual = 0
+    CenterScreen
+    WindowsDefaultLocation
+    WindowsDefaultBounds
+    CenterParent
+}
