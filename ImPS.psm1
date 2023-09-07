@@ -15,6 +15,7 @@ class ImPS {
 
 
     ImPS([string]$title, [int]$width=300, [int]$height=150) {
+        [System.Windows.Forms.Application]::EnableVisualStyles();
         $this.Window = New-Object System.Windows.Forms.Form
         $this.Window.ClientSize = "$($width),$($height)"
         $this.Window.Text = $title
@@ -66,6 +67,13 @@ class ImPS {
 
     [ImPS_TextBox] add_TextBox([string]$text,[int]$pos_x, [int]$pos_y){
         $Instance = [ImPS_TextBox]::new($text, $pos_x, $pos_y)
+        $this.Window.Controls.Add($Instance.get_Drawable())
+        $this.Drawables[$Instance.get_Guid()] = $Instance
+        return $Instance
+    }
+
+    [ImPS_ProgressBar] add_ProgressBar([int]$value,[int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_ProgressBar]::new($value, $pos_x, $pos_y)
         $this.Window.Controls.Add($Instance.get_Drawable())
         $this.Drawables[$Instance.get_Guid()] = $Instance
         return $Instance
@@ -202,6 +210,30 @@ class ImPS_TextBox : ImPS_Drawable {
         return $this
     }
 }
+
+class ImPS_ProgressBar : ImPS_Drawable {
+    [System.Windows.Forms.ProgressBar] $Drawable
+    [guid] $Guid
+
+    ImPS_ProgressBar([int]$value, [int]$pos_x, [int]$pos_y){
+        $this.Guid = [guid]::NewGuid()
+        $this.Drawable = New-Object System.Windows.Forms.ProgressBar
+        $this.Drawable.Value = $value
+        $this.Drawable.Style = "Continuous"
+        $this.Drawable.MarqueeAnimationSpeed = 80
+        $this.Drawable.AutoSize=$true
+        $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
+    }
+    [int] get_value(){
+        return $this.Drawable.Value
+    }
+    [ImPS_ProgressBar] set_value([int]$value){
+        $this.Drawable.Value = $value
+        return $this
+    }
+
+}
+
 
 enum ScrollBars { #https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.scrollbars?view=windowsdesktop-7.0
     None = 0
