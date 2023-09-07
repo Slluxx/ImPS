@@ -68,3 +68,22 @@ $btn = $window.add_Button("Click me", 20, 20).onClick({
 $myfunc = { write-host "Got clicked" }
 $btn = $window.add_Button("Click me", 20, 20).onClick($myfunc)
 ```
+
+[ImPS].Window exposes a `System.Windows.Forms.Form` Object, so you can combine ImPS with the normal method of creating UIs (for example if a UI element does not exist yet):
+
+```powershell
+$window = [ImPS]::new("ImPS Window", 285, 200)
+$objLabel = New-Object System.Windows.Forms.label
+$objLabel.Location = New-Object System.Drawing.Size(7,10)
+$objLabel.Size = New-Object System.Drawing.Size(130,15)
+$objLabel.Text = "Enter Computer Name"
+$window.Window.Controls.Add($objLabel)
+```
+
+Every UI Element by ImPS exposes the native Object at [Object].Drawable, which means you can change attributes even if there is no getter/setter by ImPS:
+
+```powershell
+$texbox = $window.add_TextBox("password", 100, 20)
+$texbox.Drawable.PasswordChar = '*'
+```
+Note: This is discouraged and should not be done. I plan on supporting the most used attribute getter/setter. 
