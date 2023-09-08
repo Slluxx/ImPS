@@ -58,21 +58,21 @@ More elements will get added.
 ImPS is written for you to easily chain methods if desired:
 
 ```powershell
-$window.add_Label("My bold label", 20, 20).set_font("Verdana,8,style=Bold")
+$window.Elements.add_Label("My bold label", 20, 20).set_font("Verdana,8,style=Bold")
 # or
-$label = $window.add_Label("My italic label", 20, 40)
+$label = $window.Elements.add_Label("My italic label", 20, 40)
 $label.set_font("Verdana,8,style=Italic")
 ```
 
 Button onClick-handler work inline or as defined function:
 
 ```powershell
-$btn = $window.add_Button("Click me", 20, 20).onClick({
+$btn = $window.Elements.add_Button("Click me", 20, 20).onClick({
     write-host "Got clicked"
 })
 # or
 $myfunc = { write-host "Got clicked" }
-$btn = $window.add_Button("Click me", 20, 20).onClick($myfunc)
+$btn = $window.Elements.add_Button("Click me", 20, 20).onClick($myfunc)
 ```
 
 [ImPS].Window exposes a `System.Windows.Forms.Form` Object, so you can combine ImPS with the normal method of creating UIs (for example if a UI element does not exist yet):
@@ -89,7 +89,7 @@ $window.Window.Controls.Add($objLabel)
 Every UI Element by ImPS exposes the native Object at [Object].Drawable, which means you can change attributes even if there is no getter/setter by ImPS:
 
 ```powershell
-$texbox = $window.add_TextBox("password", 100, 20)
+$texbox = $window.Elements.add_TextBox("password", 100, 20)
 $texbox.Drawable.PasswordChar = '*'
 ```
 Note: This is discouraged and should not be done. I plan on supporting the most used attribute getter/setter. 
