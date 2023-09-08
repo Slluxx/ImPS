@@ -1,9 +1,9 @@
 ﻿using module ".\ImPS.psm1"
 
 $ImPS = [ImPS]::new()
-$window = $ImPS.add_window("ImPS Window", 300, 350)
+$window = $ImPS.add_Window("ImPS Window", 300, 350)
 
-$pannel = $window.Pannels.add_TableLayoutPanel(2,2, 20,20)
+$pannel = $window.Panels.add_TableLayoutPanel(2,2, 20,20)
 $pannel.add_ColumnStyle(50).add_ColumnStyle(50).add_RowStyle(50).add_RowStyle(50)
 
 $pannel.Elements.add_Label("A", 20,20)
