@@ -1,4 +1,7 @@
 ﻿Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+[System.Windows.Forms.Application]::EnableVisualStyles()
 
 # https://stackoverflow.com/questions/41475205/how-to-output-value-from-function-to-caller-but-not-to-console
 # https://renenyffenegger.ch/notes/Windows/PowerShell/command-inventory/noun/default/out
@@ -8,88 +11,102 @@ function out-default {
     process{}
 }
 
-
 class ImPS {
-    [System.Windows.Forms.Form] $Window
-    [hashtable] $Drawables = @{}
-
-
-    ImPS([string]$title, [int]$width=300, [int]$height=150) {
-        [System.Windows.Forms.Application]::EnableVisualStyles();
-        $this.Window = New-Object System.Windows.Forms.Form
-        $this.Window.ClientSize = "$($width),$($height)"
-        $this.Window.Text = $title
-        $this.Window.BackColor = "#ffffff"
-        $this.Window.StartPosition = [FormStartPosition]::CenterScreen
-        #$this.Window.TopMost = $true
-    }
-    [ImPS] window_setTitle([string]$title){$this.Window.Text = $title; return $this}
-    [ImPS] window_setClientSize([int]$width=300, [int]$height=150){$this.Window.ClientSize = "$($width),$($height)"; return $this}
-    [ImPS] window_setBackColor([string]$color){$this.Window.BackColor = $color; return $this}
-    [ImPS] window_setStartPosition([FormStartPosition]$position){ # does not seem to work
-        $this.Window.StartPosition = $position
-        return $this
-    }
-
-
-    show(){
-        $this.Window.ShowDialog()
-        $this.Window.Dispose()
-    }
-
-    [ImPS_Label] add_Label([string]$text, [int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_Label]::new($text, $pos_x, $pos_y)
-        $this.Window.Controls.Add($Instance.get_Drawable())
-        $this.Drawables[$Instance.get_Guid()] = $Instance
-        return $Instance
-    }
-
-    [ImPS_Checkbox] add_Checkbox([bool]$checked, [int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_Checkbox]::new($checked, $pos_x, $pos_y)
-        $this.Window.Controls.Add($Instance.get_Drawable())
-        $this.Drawables[$Instance.get_Guid()] = $Instance
-        return $Instance
-    }
-
-    [ImPS_Button] add_Button([string]$text, [int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_Button]::new($text, $pos_x, $pos_y)
-        $this.Window.Controls.Add($Instance.get_Drawable())
-        $this.Drawables[$Instance.get_Guid()] = $Instance
-        return $Instance
-    }
-
-    [ImPS_ListBox] add_ListBox([int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_ListBox]::new($pos_x, $pos_y)
-        $this.Window.Controls.Add($Instance.get_Drawable())
-        $this.Drawables[$Instance.get_Guid()] = $Instance
-        return $Instance
-    }
-
-    [ImPS_TextBox] add_TextBox([string]$text,[int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_TextBox]::new($text, $pos_x, $pos_y)
-        $this.Window.Controls.Add($Instance.get_Drawable())
-        $this.Drawables[$Instance.get_Guid()] = $Instance
-        return $Instance
-    }
-
-    [ImPS_ProgressBar] add_ProgressBar([int]$value,[int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_ProgressBar]::new($value, $pos_x, $pos_y)
-        $this.Window.Controls.Add($Instance.get_Drawable())
-        $this.Drawables[$Instance.get_Guid()] = $Instance
-        return $Instance
-    }
-    
-    [ImPS_ComboBox] add_ComboBox([int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_ComboBox]::new($pos_x, $pos_y)
-        $this.Window.Controls.Add($Instance.get_Drawable())
-        $this.Drawables[$Instance.get_Guid()] = $Instance
+    [ImPS_window] add_window([string]$title, [int]$width, [int]$height){
+        $Instance = [ImPS_window]::new($title, $width, $height)
         return $Instance
     }
 }
 
-class ImPS_Drawable{
-    [guid] get_Guid(){ return $this.Guid }
-    [object] get_drawable(){ return $this.Drawable }
+class ImPS_window {
+    [System.Windows.Forms.Form] $Drawable
+    [object] $Elements
+    [object] $Pannels
+    
+    ImPS_window([string]$title, [int]$width, [int]$height){
+        $this.Elements = [ImPS_Elements]::new($this)
+        $this.Pannels = [ImPS_Pannels]::new($this)
+
+        $this.Drawable = New-Object System.Windows.Forms.Form
+        $this.Drawable.ClientSize = "$($width),$($height)"
+        $this.Drawable.Text = $title
+        $this.Drawable.BackColor = "#ffffff"
+        $this.Drawable.StartPosition = 1
+    }
+
+    show(){
+        $this.Drawable.ShowDialog()
+        $this.Drawable.Dispose()
+    }
+}
+
+class ImPS_Elements { # class to create elements into a parent
+    [object] $Parent
+    ImPS_Elements([object]$parent){
+        $this.Parent = $parent
+    }
+    [ImPS_Elements_Label] add_Label([string]$text, [int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Elements_Label]::new($text, $pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+    [ImPS_Elements_Checkbox] add_Checkbox([bool]$checked, [int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Elements_Checkbox]::new($checked, $pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+
+    [ImPS_Elements_Button] add_Button([string]$text, [int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Elements_Button]::new($text, $pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+
+    [ImPS_Elements_ListBox] add_ListBox([int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Elements_ListBox]::new($pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+
+    [ImPS_Elements_TextBox] add_TextBox([string]$text,[int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Elements_TextBox]::new($text, $pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+
+    [ImPS_Elements_ProgressBar] add_ProgressBar([int]$value,[int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Elements_ProgressBar]::new($value, $pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+    
+    [ImPS_Elements_ComboBox] add_ComboBox([int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Elements_ComboBox]::new($pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+}
+
+class ImPS_Pannels { # class to create pannels
+    [object] $Parent
+    [object] $Elements
+    [object] $Pannels
+
+    ImPS_Pannels([object]$parent){
+        $this.Parent = $parent
+    }
+    
+    [ImPS_Pannel_TableLayoutPanel] add_TableLayoutPanel([int]$cols, [int]$rows, [int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Pannel_TableLayoutPanel]::new($cols, $rows, $pos_x, $pos_y)
+        $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
+        return $Instance
+    }
+}
+
+class ImPS_Elements__Base { # base class for shared methods of Elements
+    [object] get_Drawable(){
+        return $this.Drawable
+    }
     [object] set_font([string]$font){ 
         $this.Drawable.font = $font
         return $this
@@ -121,12 +138,19 @@ class ImPS_Drawable{
     }
 }
 
-class ImPS_Label : ImPS_Drawable {
-    [System.Windows.Forms.Label] $Drawable
-    [guid] $Guid
+class ImPS_Pannels__Base { # base class for shared methods of Pannels
+    [object] get_Drawable(){
+        return $this.Drawable
+    }
+    [object] set_DockStyle([DockStyle]$mode){
+        $this.Drawable.Dock = $mode
+        return $this
+    }
+}
 
-    ImPS_Label([string]$text, [int]$pos_x, [int]$pos_y) {
-        $this.Guid = [guid]::NewGuid()
+class ImPS_Elements_Label : ImPS_Elements__Base {
+    [System.Windows.Forms.Label] $Drawable
+    ImPS_Elements_Label([string]$text, [int]$pos_x, [int]$pos_y) {
         $this.Drawable = New-Object System.Windows.Forms.label
         $this.Drawable.Text = $text
         $this.Drawable.AutoSize=$true
@@ -135,14 +159,13 @@ class ImPS_Label : ImPS_Drawable {
     }
 }
 
-class ImPS_Checkbox : ImPS_Drawable {
-    [System.Windows.Forms.CheckBox] $Drawable
-    [guid] $Guid
 
-    ImPS_Checkbox([bool]$checked, [int]$pos_x, [int]$pos_y){
-        $this.Guid = [guid]::NewGuid()
+class ImPS_Elements_Checkbox : ImPS_Elements__Base {
+    [System.Windows.Forms.CheckBox] $Drawable
+
+    ImPS_Elements_Checkbox([bool]$checked, [int]$pos_x, [int]$pos_y){
         $this.Drawable = New-Object System.Windows.Forms.CheckBox
-        $this.Drawable.Checked=$true
+        $this.Drawable.Checked=$checked
         $this.Drawable.AutoSize=$true
         $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
     }
@@ -150,35 +173,31 @@ class ImPS_Checkbox : ImPS_Drawable {
     [bool] get_checked(){
         return $this.Drawable.Checked
     }
-    [ImPS_Checkbox] set_checked([bool]$checked){
+    [ImPS_Elements_Checkbox] set_checked([bool]$checked){
         $this.Drawable.Checked = $checked
         return $this
     }
 }
 
-class ImPS_Button : ImPS_Drawable {
+class ImPS_Elements_Button : ImPS_Elements__Base {
     [System.Windows.Forms.Button] $Drawable
-    [guid] $Guid
 
-    ImPS_Button([string]$text, [int]$pos_x, [int]$pos_y){
-        $this.Guid = [guid]::NewGuid()
+    ImPS_Elements_Button([string]$text, [int]$pos_x, [int]$pos_y){
         $this.Drawable = New-Object System.Windows.Forms.Button
         $this.Drawable.Text = $text
         $this.Drawable.AutoSize=$true
         $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
     }
-    [ImPS_Button] onClick([scriptblock] $fn){
+    [ImPS_Elements_Button] onClick([scriptblock] $fn){
         $this.Drawable.Add_Click($fn)
         return $this
     }
 }
 
-class ImPS_ListBox : ImPS_Drawable {
+class ImPS_Elements_ListBox : ImPS_Elements__Base {
     [System.Windows.Forms.ListBox] $Drawable
-    [guid] $Guid
 
-    ImPS_ListBox([int]$pos_x, [int]$pos_y) {
-        $this.Guid = [guid]::NewGuid()
+    ImPS_Elements_ListBox([int]$pos_x, [int]$pos_y) {
         $this.Drawable = New-Object System.Windows.Forms.ListBox
         $this.Drawable.Location = New-Object System.Drawing.Point($pos_x,$pos_y)
         $this.Drawable.AutoSize=$true
@@ -186,44 +205,46 @@ class ImPS_ListBox : ImPS_Drawable {
     [System.Windows.Forms.ListBox+ObjectCollection]ListBoxItem(){
         return $this.Drawable.Items
     }
+    [ImPS_Elements_ListBox]set_selected([int]$index, [bool]$selected){
+        $this.Drawable.SetSelected($index, $selected)
+        return $this
+    }
+    [bool]get_selected([int]$index){
+        return $this.Drawable.GetSelected($index)
+    }
 }
 
-class ImPS_TextBox : ImPS_Drawable {
+class ImPS_Elements_TextBox : ImPS_Elements__Base {
     [System.Windows.Forms.TextBox] $Drawable
-    [guid] $Guid
 
-    ImPS_TextBox([string]$text,[int]$pos_x, [int]$pos_y) {
-        $this.Guid = [guid]::NewGuid()
+    ImPS_Elements_TextBox([string]$text,[int]$pos_x, [int]$pos_y) {
         $this.Drawable = New-Object System.Windows.Forms.TextBox
         $this.Drawable.Text = $text
         $this.Drawable.Location=New-Object System.Drawing.Point($pos_x,$pos_y)
         $this.Drawable.AutoSize=$true
-        $this.Drawable.p
     }
-    [ImPS_TextBox] set_size([int]$height, [int]$width){
+    [ImPS_Elements_TextBox] set_size([int]$height, [int]$width){
         $this.Drawable.Size = New-Object System.Drawing.Size($width,$height)
         return $this
     }
-    [ImPS_TextBox] set_multiline([bool]$multiline){
+    [ImPS_Elements_TextBox] set_multiline([bool]$multiline){
         $this.Drawable.Multiline = $multiline
         return $this
     }
-    [ImPS_TextBox] set_acceptsReturn([bool]$acceptsReturn){
+    [ImPS_Elements_TextBox] set_acceptsReturn([bool]$acceptsReturn){
         $this.Drawable.Multiline = $acceptsReturn
         return $this
     }
-    [ImPS_TextBox] set_scrollbars([ScrollBars]$type){ 
+    [ImPS_Elements_TextBox] set_scrollbars([ScrollBars]$type){ 
         $this.Drawable.ScrollBars = $type
         return $this
     }
 }
 
-class ImPS_ProgressBar : ImPS_Drawable {
+class ImPS_Elements_ProgressBar : ImPS_Elements__Base {
     [System.Windows.Forms.ProgressBar] $Drawable
-    [guid] $Guid
 
-    ImPS_ProgressBar([int]$value, [int]$pos_x, [int]$pos_y){
-        $this.Guid = [guid]::NewGuid()
+    ImPS_Elements_ProgressBar([int]$value, [int]$pos_x, [int]$pos_y){
         $this.Drawable = New-Object System.Windows.Forms.ProgressBar
         $this.Drawable.Value = $value
         $this.Drawable.Style = "Continuous"
@@ -234,18 +255,16 @@ class ImPS_ProgressBar : ImPS_Drawable {
     [int] get_value(){
         return $this.Drawable.Value
     }
-    [ImPS_ProgressBar] set_value([int]$value){
+    [ImPS_Elements_ProgressBar] set_value([int]$value){
         $this.Drawable.Value = $value
         return $this
     }
 
 }
 
-class ImPS_ComboBox  : ImPS_Drawable {
+class ImPS_Elements_ComboBox  : ImPS_Elements__Base {
     [System.Windows.Forms.ComboBox] $Drawable
-    [guid] $Guid
-    ImPS_ComboBox([int]$pos_x, [int]$pos_y) {
-        $this.Guid = [guid]::NewGuid()
+    ImPS_Elements_ComboBox([int]$pos_x, [int]$pos_y) {
         $this.Drawable = New-Object System.Windows.Forms.ComboBox
         $this.Drawable.Location = New-Object System.Drawing.Point($pos_x,$pos_y)
         $this.Drawable.AutoSize=$true
@@ -253,14 +272,14 @@ class ImPS_ComboBox  : ImPS_Drawable {
     [System.Windows.Forms.ComboBox+ObjectCollection] ComboBoxItem(){
         return $this.Drawable.Items
     }
-    [ImPS_ComboBox] set_selection([int]$index){
+    [ImPS_Elements_ComboBox] set_selection([int]$index){
         $this.Drawable.SelectedIndex = $index
         return $this
     }
     [int] get_selectionIndex(){
         return $this.Drawable.SelectedIndex
     }
-    [ImPS_ComboBox] set_selection([string]$value){
+    [ImPS_Elements_ComboBox] set_selection([string]$value){
         $this.Drawable.SelectedItem = $value
         return $this
     }
@@ -270,15 +289,66 @@ class ImPS_ComboBox  : ImPS_Drawable {
     
 }
 
+class ImPS_Pannel_TableLayoutPanel : ImPS_Pannels__Base {
+    [System.Windows.Forms.TableLayoutPanel] $Drawable
+    [object] $Elements
 
-enum ScrollBars { #https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.scrollbars?view=windowsdesktop-7.0
+    ImPS_Pannel_TableLayoutPanel([int]$cols, [int]$rows, [int]$pos_x, [int]$pos_y){
+        $this.Elements = [ImPS_Elements]::new($this)
+
+        $this.Drawable = New-Object System.Windows.Forms.TableLayoutPanel
+        $this.Drawable.Location = New-Object System.Drawing.Point($pos_x,$pos_y)
+        $this.Drawable.AutoSize=$true
+        $this.Drawable.ColumnCount = $cols
+        $this.Drawable.RowCount = $rows
+        $this.Drawable.CellBorderStyle = "single"
+    }
+
+    [ImPS_Pannel_TableLayoutPanel] add_ColumnStyle([int]$percent){
+        $this.Drawable.ColumnStyles.Add((new-object System.Windows.Forms.ColumnStyle([System.Windows.Forms.SizeType]::Percent, $percent)))
+        return $this
+    }
+    [ImPS_Pannel_TableLayoutPanel] add_RowStyle([int]$percent){
+        $this.Drawable.RowStyles.Add((new-object System.Windows.Forms.RowStyle([System.Windows.Forms.SizeType]::Percent, $percent)))
+        return $this
+    }
+    [ImPS_Pannel_TableLayoutPanel] set_CellBorderStyle([BorderStyle]$style){
+        $this.Drawable.CellBorderStyle = $style
+        return $this
+    }
+    [ImPS_Pannel_TableLayoutPanel] set_ColumnCount([int]$count){
+        $this.Drawable.ColumnCount = $count
+        return $this
+    }
+    [ImPS_Pannel_TableLayoutPanel] set_RowCount([int]$count){
+        $this.Drawable.RowCount = $count
+        return $this
+    }
+}
+
+enum DockStyle {
+    None = 0
+    Top
+    Bottom
+    Left
+    Right
+    Fill
+}
+
+enum BorderStyle {
+    None = 0
+    FixedSingle
+    Fixed3D
+}
+
+enum ScrollBars {
     None = 0
     Horizontal
     Vertical
     Both
 }
 
-enum FormStartPosition { # https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.formstartposition?view=windowsdesktop-7.0
+enum FormStartPosition {
     Manual = 0
     CenterScreen
     WindowsDefaultLocation
