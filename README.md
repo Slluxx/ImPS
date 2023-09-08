@@ -47,6 +47,8 @@ $window.show()
 - ProgressBar
 - ComboBox
 
+- TableLayoutPanel
+
 More elements will get added.
 
 ## Advanced usage
