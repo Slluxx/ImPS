@@ -3,6 +3,10 @@ ImPS is a simple one-file module wrapper to use WPF components in your script wi
 
 Please have in mind that this is in active development and, while usable, should not be used in any kind of production environment.
 
+## Documentation
+
+[Click me](https://slluxx.github.io/ImPS/)
+
 ## Comparison
 ![ImPS Window](https://raw.githubusercontent.com/Slluxx/ImPS/main/images/ImPS.png)
 
