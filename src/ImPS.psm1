@@ -12,20 +12,20 @@ function out-default {
 }
 
 class ImPS {
-    [ImPS_window] add_window([string]$title, [int]$width, [int]$height){
-        $Instance = [ImPS_window]::new($title, $width, $height)
+    [ImPS_Window] add_window([string]$title, [int]$width, [int]$height){
+        $Instance = [ImPS_Window]::new($title, $width, $height)
         return $Instance
     }
 }
 
-class ImPS_window {
+class ImPS_Window {
     [System.Windows.Forms.Form] $Drawable
     [object] $Elements
-    [object] $Pannels
+    [object] $Panels
     
-    ImPS_window([string]$title, [int]$width, [int]$height){
+    ImPS_Window([string]$title, [int]$width, [int]$height){
         $this.Elements = [ImPS_Elements]::new($this)
-        $this.Pannels = [ImPS_Pannels]::new($this)
+        $this.Panels = [ImPS_Panels]::new($this)
 
         $this.Drawable = New-Object System.Windows.Forms.Form
         $this.Drawable.ClientSize = "$($width),$($height)"
@@ -68,13 +68,13 @@ class ImPS_Elements { # class to create elements into a parent
         return $Instance
     }
 
-    [ImPS_Elements_TextBox] add_TextBox([string]$text,[int]$pos_x, [int]$pos_y){
+    [ImPS_Elements_TextBox] add_TextBox([string]$text, [int]$pos_x, [int]$pos_y){
         $Instance = [ImPS_Elements_TextBox]::new($text, $pos_x, $pos_y)
         $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
         return $Instance
     }
 
-    [ImPS_Elements_ProgressBar] add_ProgressBar([int]$value,[int]$pos_x, [int]$pos_y){
+    [ImPS_Elements_ProgressBar] add_ProgressBar([int]$value, [int]$pos_x, [int]$pos_y){
         $Instance = [ImPS_Elements_ProgressBar]::new($value, $pos_x, $pos_y)
         $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
         return $Instance
@@ -87,17 +87,15 @@ class ImPS_Elements { # class to create elements into a parent
     }
 }
 
-class ImPS_Pannels { # class to create pannels
+class ImPS_Panels { # class to create Panels
     [object] $Parent
-    [object] $Elements
-    [object] $Pannels
 
-    ImPS_Pannels([object]$parent){
+    ImPS_Panels([object]$parent){
         $this.Parent = $parent
     }
     
-    [ImPS_Pannel_TableLayoutPanel] add_TableLayoutPanel([int]$cols, [int]$rows, [int]$pos_x, [int]$pos_y){
-        $Instance = [ImPS_Pannel_TableLayoutPanel]::new($cols, $rows, $pos_x, $pos_y)
+    [ImPS_Panels_TableLayoutPanel] add_TableLayoutPanel([int]$cols, [int]$rows, [int]$pos_x, [int]$pos_y){
+        $Instance = [ImPS_Panels_TableLayoutPanel]::new($cols, $rows, $pos_x, $pos_y)
         $this.Parent.Drawable.Controls.Add($Instance.get_Drawable())
         return $Instance
     }
@@ -138,7 +136,7 @@ class ImPS_Elements__Base { # base class for shared methods of Elements
     }
 }
 
-class ImPS_Pannels__Base { # base class for shared methods of Pannels
+class ImPS_Panels__Base { # base class for shared methods of Panels
     [object] get_Drawable(){
         return $this.Drawable
     }
@@ -231,10 +229,6 @@ class ImPS_Elements_TextBox : ImPS_Elements__Base {
         $this.Drawable.Multiline = $multiline
         return $this
     }
-    [ImPS_Elements_TextBox] set_acceptsReturn([bool]$acceptsReturn){
-        $this.Drawable.Multiline = $acceptsReturn
-        return $this
-    }
     [ImPS_Elements_TextBox] set_scrollbars([ScrollBars]$type){ 
         $this.Drawable.ScrollBars = $type
         return $this
@@ -289,12 +283,14 @@ class ImPS_Elements_ComboBox  : ImPS_Elements__Base {
     
 }
 
-class ImPS_Pannel_TableLayoutPanel : ImPS_Pannels__Base {
+class ImPS_Panels_TableLayoutPanel : ImPS_Panels__Base {
     [System.Windows.Forms.TableLayoutPanel] $Drawable
     [object] $Elements
+    [object] $Panels
 
-    ImPS_Pannel_TableLayoutPanel([int]$cols, [int]$rows, [int]$pos_x, [int]$pos_y){
+    ImPS_Panels_TableLayoutPanel([int]$cols, [int]$rows, [int]$pos_x, [int]$pos_y){
         $this.Elements = [ImPS_Elements]::new($this)
+        $this.Panels = [ImPS_Panels]::new($this)
 
         $this.Drawable = New-Object System.Windows.Forms.TableLayoutPanel
         $this.Drawable.Location = New-Object System.Drawing.Point($pos_x,$pos_y)
@@ -304,23 +300,23 @@ class ImPS_Pannel_TableLayoutPanel : ImPS_Pannels__Base {
         $this.Drawable.CellBorderStyle = "single"
     }
 
-    [ImPS_Pannel_TableLayoutPanel] add_ColumnStyle([int]$percent){
+    [ImPS_Panels_TableLayoutPanel] add_ColumnStyle([int]$percent){
         $this.Drawable.ColumnStyles.Add((new-object System.Windows.Forms.ColumnStyle([System.Windows.Forms.SizeType]::Percent, $percent)))
         return $this
     }
-    [ImPS_Pannel_TableLayoutPanel] add_RowStyle([int]$percent){
+    [ImPS_Panels_TableLayoutPanel] add_RowStyle([int]$percent){
         $this.Drawable.RowStyles.Add((new-object System.Windows.Forms.RowStyle([System.Windows.Forms.SizeType]::Percent, $percent)))
         return $this
     }
-    [ImPS_Pannel_TableLayoutPanel] set_CellBorderStyle([BorderStyle]$style){
+    [ImPS_Panels_TableLayoutPanel] set_CellBorderStyle([BorderStyle]$style){
         $this.Drawable.CellBorderStyle = $style
         return $this
     }
-    [ImPS_Pannel_TableLayoutPanel] set_ColumnCount([int]$count){
+    [ImPS_Panels_TableLayoutPanel] set_ColumnCount([int]$count){
         $this.Drawable.ColumnCount = $count
         return $this
     }
-    [ImPS_Pannel_TableLayoutPanel] set_RowCount([int]$count){
+    [ImPS_Panels_TableLayoutPanel] set_RowCount([int]$count){
         $this.Drawable.RowCount = $count
         return $this
     }
