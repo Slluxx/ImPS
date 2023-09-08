@@ -4,7 +4,7 @@ ImPS is a simple one-file module wrapper to use WPF components in your script wi
 Please have in mind that this is in active development and, while usable, should not be used in any kind of production environment.
 
 ## Comparison
-![ImPS Window](https://raw.githubusercontent.com/Slluxx/ImPS/main/ImPS.png)
+![ImPS Window](https://raw.githubusercontent.com/Slluxx/ImPS/main/images/ImPS.png)
 
 Here is the code you would need to write this basic window + label:
 ```powershell
@@ -46,10 +46,11 @@ $window.show()
 - TextBox
 - ProgressBar
 - ComboBox
-
 - TableLayoutPanel
 
 More elements will get added.
+
+![ImPS Window](https://raw.githubusercontent.com/Slluxx/ImPS/main/images/elements.png)
 
 ## Advanced usage
 
