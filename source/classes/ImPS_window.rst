@@ -14,6 +14,7 @@ ImPS_Window
 :Attributes:    
                 - **Elements** ([:ref:`ImPS-Elements`])
                 - **Panels** ([:ref:`ImPS-Panels`])
+                - **Drawable** (`[System.Windows.Forms.Forms] <https://learn.microsoft.com/de-de/dotnet/api/system.windows.forms.form?view=windowsdesktop-7.0#properties>`_)
 :Returns:       
                 - [:ref:`ImPS-Window`]
 
