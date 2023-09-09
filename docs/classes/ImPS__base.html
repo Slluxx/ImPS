@@ -90,7 +90,7 @@ IntelliSense is lost.</p>
 denying direct access and omitting a getter or setter. Since i dont control
 anything inside <code class="docutils literal notranslate"><span class="pre">$this.Drawable</span></code> and all the attributes are public anyway,
 having ImPS getters and setters for this is pretty much useless.</p>
-<p>However, having getters and setters mean, that at least with setters, i can return
+<p>However, having getters and setters means, that at least with setters, i can return
 an instance to whatever class is calling the setter. This means we can easily chain
 multiple methods instead of calling them one after another.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">myInstance</span><span class="o">.</span><span class="n">myMethod1</span><span class="p">()</span><span class="o">.</span><span class="n">myMethod2</span><span class="p">()</span><span class="o">.</span><span class="n">myMethod3</span><span class="p">()</span>
@@ -103,10 +103,11 @@ multiple methods instead of calling them one after another.</p>
 </pre></div>
 </div>
 <p>I am thinking about removing the getters and setters entirely to make anyone
-use <code class="docutils literal notranslate"><span class="pre">$this.Drawable</span></code> instead. This would remove <strong>a lot</strong> of code.
-Not just that but if there is a need for a helper method, i can just add it
-to the Element/Panel instance and it will have IntelliSense. I am still not
-sure about this - comments are welcome.</p>
+use <code class="docutils literal notranslate"><span class="pre">$this.Drawable</span></code> instead. This would remove <strong>a lot</strong> of code. Not just
+that but if there is a need for a helper method, i can just add it to the
+Element/Panel instance (instead of this helper class) and it will have
+IntelliSense. I am still not sure about this. Would it make this module
+obsolete? - Comments are welcome</p>
 </section>
 
 
