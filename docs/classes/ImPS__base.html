@@ -19,6 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Examples" href="../examples.html" />
     <link rel="prev" title="ScrollBars" href="../enums/ScrollBars.html" /> 
 </head>
 
@@ -49,6 +50,10 @@
 <p class="caption" role="heading"><span class="caption-text">Info:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Baseclass for Elements and Panels</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Other:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
 </ul>
 
         </div>
@@ -84,11 +89,24 @@ IntelliSense is lost.</p>
 <p>Usually getters and setters exist to restrict access to an attribute by
 denying direct access and omitting a getter or setter. Since i dont control
 anything inside <code class="docutils literal notranslate"><span class="pre">$this.Drawable</span></code> and all the attributes are public anyway,
-having ImSP getters and setters for this is pretty much useless.</p>
+having ImPS getters and setters for this is pretty much useless.</p>
+<p>However, having getters and setters mean, that at least with setters, i can return
+an instance to whatever class is calling the setter. This means we can easily chain
+multiple methods instead of calling them one after another.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">myInstance</span><span class="o">.</span><span class="n">myMethod1</span><span class="p">()</span><span class="o">.</span><span class="n">myMethod2</span><span class="p">()</span><span class="o">.</span><span class="n">myMethod3</span><span class="p">()</span>
+
+<span class="c1"># instead of</span>
+
+<span class="n">myInstance</span><span class="o">.</span><span class="n">myMethod1</span><span class="p">()</span>
+<span class="n">myInstance</span><span class="o">.</span><span class="n">myMethod2</span><span class="p">()</span>
+<span class="n">myInstance</span><span class="o">.</span><span class="n">myMethod3</span><span class="p">()</span>
+</pre></div>
+</div>
 <p>I am thinking about removing the getters and setters entirely to make anyone
 use <code class="docutils literal notranslate"><span class="pre">$this.Drawable</span></code> instead. This would remove <strong>a lot</strong> of code.
 Not just that but if there is a need for a helper method, i can just add it
-to the Element/Panel instance and it will have IntelliSense.</p>
+to the Element/Panel instance and it will have IntelliSense. I am still not
+sure about this - comments are welcome.</p>
 </section>
 
 
@@ -96,6 +114,7 @@ to the Element/Panel instance and it will have IntelliSense.</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../enums/ScrollBars.html" class="btn btn-neutral float-left" title="ScrollBars" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

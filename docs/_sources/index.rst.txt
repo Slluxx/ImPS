@@ -25,6 +25,14 @@ It is heavily inspired by ImGUI/DearPyGui to make it as easy as possible to use 
 
    classes/ImPS__base
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Other:
+
+   examples
+
+
+
 Indices and tables
 ==================
 
