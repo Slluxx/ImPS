@@ -3,7 +3,7 @@
 ImPS_Panels_TableLayoutPanel
 ==============================
 
-.. class:: ImPS_Panels_TableLayoutPanel([int]$cols, [int]$rows, [int]$pos_x, [int]$pos_y)
+.. class:: ImPS_Panels_TableLayoutPanel($cols, $rows, $pos_x, $pos_y)
 .. attention::
     This class is not intended to be initialized directly.
 .. note::

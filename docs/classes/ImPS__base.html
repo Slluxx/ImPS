@@ -49,7 +49,19 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Info:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Baseclass for Elements and Panels</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Baseclass for Elements and Panels</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ImPS_Elements__Base"><code class="docutils literal notranslate"><span class="pre">ImPS_Elements__Base</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set_attr"><code class="docutils literal notranslate"><span class="pre">set_attr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get_height"><code class="docutils literal notranslate"><span class="pre">get_height()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set_height"><code class="docutils literal notranslate"><span class="pre">set_height()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get_width"><code class="docutils literal notranslate"><span class="pre">get_width()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set_width"><code class="docutils literal notranslate"><span class="pre">set_width()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#get_text"><code class="docutils literal notranslate"><span class="pre">get_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set_text"><code class="docutils literal notranslate"><span class="pre">set_text()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set_pos"><code class="docutils literal notranslate"><span class="pre">set_pos()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set_font"><code class="docutils literal notranslate"><span class="pre">set_font()</span></code></a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Other:</span></p>
 <ul>
@@ -81,7 +93,181 @@
              
   <section id="baseclass-for-elements-and-panels">
 <span id="imps-panels-base"></span><span id="imps-elements-base"></span><h1>Baseclass for Elements and Panels<a class="headerlink" href="#baseclass-for-elements-and-panels" title="Link to this heading"></a></h1>
-<p>This is just a placeholder file.</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>The following class is only the baseclass for ImPS_Elements_$elem, not the Panel. I am debating about removing this class alltogther. See at the bottom for more information.</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="ImPS_Elements__Base">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ImPS_Elements__Base</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">$parent</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ImPS_Elements__Base" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>This class is not intended to be initialized directly.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$parent</strong> ([object]) - The parent class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[<a class="reference internal" href="#imps-elements-base"><span class="std std-ref">Baseclass for Elements and Panels</span></a>]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="set_attr">
+<span class="sig-name descname"><span class="pre">set_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">$attr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">$value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#set_attr" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$attr</strong> ([string]) - Any attribute found in <code class="docutils literal notranslate"><span class="pre">$this.Drawable</span></code></p></li>
+<li><p><strong>$value</strong> ([object]) - The value to set</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[object] - <code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="get_height">
+<span class="sig-name descname"><span class="pre">get_height</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#get_height" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[int]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="set_height">
+<span class="sig-name descname"><span class="pre">set_height</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">$height</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#set_height" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$height</strong> ([int])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[object] - <code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="get_width">
+<span class="sig-name descname"><span class="pre">get_width</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#get_width" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[int]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="set_width">
+<span class="sig-name descname"><span class="pre">set_width</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">$width</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#set_width" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$width</strong> ([int])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[object] - <code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="get_text">
+<span class="sig-name descname"><span class="pre">get_text</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#get_text" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[string]</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="set_text">
+<span class="sig-name descname"><span class="pre">set_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">$text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#set_text" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$text</strong> ([string])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[object] - <code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="set_pos">
+<span class="sig-name descname"><span class="pre">set_pos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">$x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">$y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#set_pos" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$x</strong> ([int]) - The x position</p></li>
+<li><p><strong>$y</strong> ([int]) - The y position</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[object] - <code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="set_font">
+<span class="sig-name descname"><span class="pre">set_font</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">$font</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#set_font" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>$font</strong> ([string]) - For example: “Verdana,8,style=Regular”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p>[object] - <code class="docutils literal notranslate"><span class="pre">$this</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<hr class="docutils" />
 <p>The actual classes only implement getters and setters for attributes inside
 <code class="docutils literal notranslate"><span class="pre">$this.Drawable</span></code>. Because of the way that i have to specify certain
 classes as return value of type <code class="docutils literal notranslate"><span class="pre">[object]</span></code> instead of their actual class type,

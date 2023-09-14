@@ -5,7 +5,74 @@
 Baseclass for Elements and Panels
 =================================
 
-This is just a placeholder file. 
+.. attention::
+    The following class is only the baseclass for ImPS_Elements_$elem, not the Panel. I am debating about removing this class alltogther. See at the bottom for more information.
+
+
+.. class:: ImPS_Elements__Base($parent)
+.. attention::
+    This class is not intended to be initialized directly.
+
+:Parameters:
+                - **$parent** ([object]) - The parent class
+:Returns:       - [:ref:`ImPS-Elements-Base`]
+
+.. function:: set_attr($attr, $value)
+
+:Parameters:    - **$attr** ([string]) - Any attribute found in ``$this.Drawable``
+                - **$value** ([object]) - The value to set
+:Returns:       - [object] - ``$this``
+
+.. function:: get_height()
+
+:Parameters:    None
+:Returns:       - [int]
+
+.. function:: set_height($height)
+
+:Parameters:    - **$height** ([int])
+:Returns:       - [object] - ``$this``
+
+.. function:: get_width()
+
+:Parameters:    None
+:Returns:       - [int]
+
+.. function:: set_width($width)
+
+:Parameters:    - **$width** ([int])
+:Returns:       - [object] - ``$this``
+
+.. function:: get_text()
+
+:Parameters:    None
+:Returns:       - [string]
+
+.. function:: set_text($text)
+
+:Parameters:    - **$text** ([string])
+:Returns:       - [object] - ``$this``
+
+.. function:: set_pos($x, $y)
+
+:Parameters:    - **$x** ([int]) - The x position
+                - **$y** ([int]) - The y position
+:Returns:       - [object] - ``$this``
+
+.. function:: set_font($font)
+
+:Parameters:    - **$font** ([string]) - For example: "Verdana,8,style=Regular"
+:Returns:       - [object] - ``$this``
+
+
+
+
+
+------
+
+
+
+
 
 The actual classes only implement getters and setters for attributes inside
 ``$this.Drawable``. Because of the way that i have to specify certain 

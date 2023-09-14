@@ -3,7 +3,7 @@
 ImPS_Panels
 =============
 
-.. class:: ImPS_Panels([object]$parent)
+.. class:: ImPS_Panels($parent)
 .. attention::
     This class is not intended to be initialized directly.
 
