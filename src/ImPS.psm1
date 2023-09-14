@@ -102,6 +102,7 @@ class ImPS_Panels { # class to create Panels
 }
 
 class ImPS_Elements__Base { # base class for shared methods of Elements
+    
     [object] get_Drawable(){
         return $this.Drawable
     }
@@ -134,6 +135,16 @@ class ImPS_Elements__Base { # base class for shared methods of Elements
     [int] get_width(){
         return $this.Drawable.Width
     }
+    
+    [object]set_attr([string]$attr, $value){
+        if (Get-Member -inputobject $this.Drawable -name $attr -Membertype Properties) {
+            $this.Drawable.$attr = $value
+        } else {
+            Write-Host "Attribute $attr not found in $($this.Drawable)"
+        }
+        return $this
+    }
+
 }
 
 class ImPS_Panels__Base { # base class for shared methods of Panels
