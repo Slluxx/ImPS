@@ -3,6 +3,19 @@ ImPS is a simple one-file module wrapper to use WPF components in your script wi
 
 Please have in mind that this is in active development and, while usable, should not be used in any kind of production environment.
 
+## Important
+
+This does not work with PowerShell 7.X due to bugs and limitations with the way things are imported, hoisted and initialized. There are workarounds but they are whacky hacks that i dont want to go into. To give a precise example:
+```powershell
+add-type -AssemblyName "System.Windows.Forms"
+class myClass {
+    [System.Windows.Forms.Form] $Drawable
+}
+```
+Due to `[System.Windows.Forms.Form]` being inside a class, it gets hoisted and accessed before add-type actually imports the nessesary things.
+[This issue](https://github.com/PowerShell/PowerShell/issues/2074) is open since 2016 and will most likely stay open for another 7 years.
+
+
 ## Documentation
 
 [Click me](https://slluxx.github.io/ImPS/)
